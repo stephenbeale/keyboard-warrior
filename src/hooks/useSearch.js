@@ -9,17 +9,60 @@ const allItems = [...shortcutItems, ...workflowItems];
 
 const fuseOptions = {
   keys: [
-    { name: "title", weight: 0.35 },
-    { name: "tags", weight: 0.3 },
-    { name: "description", weight: 0.2 },
+    { name: "title", weight: 0.45 },
+    { name: "tags", weight: 0.25 },
+    { name: "description", weight: 0.15 },
     { name: "keysDisplay", weight: 0.1 },
     { name: "category", weight: 0.05 },
   ],
-  threshold: 0.4,
+  threshold: 0.3,
   includeScore: true,
   ignoreLocation: true,
   minMatchCharLength: 2,
 };
+
+function tokenSearch(fuse, query) {
+  const tokens = query.trim().split(/\s+/).filter((t) => t.length >= 2);
+
+  if (tokens.length <= 1) {
+    return fuse.search(query);
+  }
+
+  // Search each token independently
+  const resultSets = tokens.map((token) => {
+    const hits = fuse.search(token);
+    const map = new Map();
+    for (const hit of hits) {
+      map.set(hit.item, hit.score);
+    }
+    return map;
+  });
+
+  // Intersect: only keep items that matched ALL tokens
+  const firstSet = resultSets[0];
+  const combined = [];
+
+  for (const [item, score] of firstSet) {
+    let allMatch = true;
+    let totalScore = score;
+
+    for (let i = 1; i < resultSets.length; i++) {
+      const otherScore = resultSets[i].get(item);
+      if (otherScore === undefined) {
+        allMatch = false;
+        break;
+      }
+      totalScore += otherScore;
+    }
+
+    if (allMatch) {
+      combined.push({ item, score: totalScore / tokens.length });
+    }
+  }
+
+  combined.sort((a, b) => a.score - b.score);
+  return combined;
+}
 
 export function useSearch() {
   const [query, setQuery] = useState("");
@@ -33,7 +76,7 @@ export function useSearch() {
     if (query.trim().length < 2) {
       items = allItems;
     } else {
-      const raw = fuse.search(query);
+      const raw = tokenSearch(fuse, query);
 
       // Check if shortcut results are weak (best shortcut score > 0.3)
       const bestShortcutScore = raw
