@@ -1,3 +1,5 @@
+import ThemeToggle from './ThemeToggle';
+
 export default function Layout({ children }) {
   return (
     <>
@@ -6,13 +8,17 @@ export default function Layout({ children }) {
       </a>
       <div className="min-h-screen flex flex-col">
         <header className="border-b border-surface-lighter px-4 py-5">
-          <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-2xl sm:text-3xl font-bold text-text-primary tracking-tight">
-              Keyboard Warrior
-            </h1>
-            <p className="text-text-muted text-sm mt-1">
-              Navigate Windows without a mouse — search for shortcuts & tips
-            </p>
+          <div className="max-w-3xl mx-auto flex items-center">
+            <div className="w-10" />
+            <div className="flex-1 text-center">
+              <h1 className="text-2xl sm:text-3xl font-bold text-text-primary tracking-tight">
+                Keyboard Warrior
+              </h1>
+              <p className="text-text-muted text-sm mt-1">
+                Navigate Windows without a mouse — search for shortcuts & tips
+              </p>
+            </div>
+            <ThemeToggle />
           </div>
         </header>
 
