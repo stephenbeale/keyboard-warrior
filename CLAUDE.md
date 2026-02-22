@@ -88,10 +88,39 @@ Do NOT change it back to `/keyboard-warrior/` (that was the GitHub Pages path).
    - Add keyboard navigation through results
 
 **Technical Notes:**
-- The GitHub Actions CI workflow (`.github/workflows/`) was set up for GitHub Pages
-  in a prior session but the deploy target has since changed to SiteGround. The CI
-  workflow may now be irrelevant or could be repurposed for SFTP deploy.
+- The GitHub Actions CI workflow (`.github/workflows/deploy.yml`) was set up for GitHub Pages
+  in a prior session but the deploy target has since changed to SiteGround. The file is
+  intentionally preserved — do NOT delete it. It could be repurposed for SFTP deploy to
+  SiteGround. The user has not yet decided on this.
 - Tailwind v4 uses `@tailwindcss/vite` plugin instead of a `tailwind.config.js` file —
   no PostCSS config needed, styles are in `src/index.css` using `@import "tailwindcss"`.
 - Fuse.js score: 0 = perfect match, 1 = no match. The 0.3 threshold in useSearch.js
   is tuned to feel natural — adjust if search relevance feels off.
+
+---
+
+### 2026-02-22 - Session Closure Audit
+
+**Git Audit Result:**
+- Working tree: clean
+- Unpushed commits: none
+- All work is on `origin/master` (latest commits: `deeb32f`, `a384329`)
+- No open PRs
+
+**Hosting Status (NOT yet complete — action required by user):**
+- Domain `keyboardwarrior.cc` purchased on Namecheap but DNS is NOT yet pointed anywhere
+- SiteGround account exists but domain has NOT been added there yet
+- SSL has NOT been installed
+- `dist/` has NOT been uploaded to `public_html/` yet
+- The site is not live
+
+**Required manual steps before site goes live:**
+1. In SiteGround Site Tools: add `keyboardwarrior.cc` as a domain (Websites > Add Website)
+2. In Namecheap: point nameservers to SiteGround's ns1/ns2 (or set A record to SiteGround IP)
+3. Wait for DNS propagation (up to 24-48 hours)
+4. In SiteGround: install Let's Encrypt SSL (Security > SSL Manager)
+5. Run `npm run build` locally to regenerate `dist/`
+6. Upload contents of `dist/` to `public_html/` via SiteGround File Manager or SFTP
+
+**Decision deferred:**
+- Whether to delete or repurpose `.github/workflows/deploy.yml` for SFTP auto-deploy
