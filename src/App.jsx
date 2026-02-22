@@ -2,6 +2,7 @@ import Layout from "./components/Layout";
 import SearchBar from "./components/SearchBar";
 import CategoryFilter from "./components/CategoryFilter";
 import ResultCard from "./components/ResultCard";
+import WorkflowCard from "./components/WorkflowCard";
 import { useSearch } from "./hooks/useSearch";
 import { categories } from "./data/shortcuts";
 
@@ -14,11 +15,15 @@ function App() {
   // Group results by category when not searching
   const grouped = !isSearching
     ? categories
-        .map((cat) => ({
-          ...cat,
-          items: results.filter((r) => r.category === cat.id),
-        }))
-        .filter((g) => g.items.length > 0)
+        .map((cat) => {
+          const catItems = results.filter((r) => r.category === cat.id);
+          return {
+            ...cat,
+            shortcuts: catItems.filter((r) => r.type === "shortcut"),
+            workflows: catItems.filter((r) => r.type === "workflow"),
+          };
+        })
+        .filter((g) => g.shortcuts.length > 0 || g.workflows.length > 0)
     : null;
 
   return (
@@ -40,13 +45,17 @@ function App() {
           {isSearching ? (
             results.length > 0 ? (
               <div className="space-y-3">
-                {results.map((shortcut) => (
-                  <ResultCard key={shortcut.id} shortcut={shortcut} />
-                ))}
+                {results.map((item) =>
+                  item.type === "workflow" ? (
+                    <WorkflowCard key={item.id} workflow={item} />
+                  ) : (
+                    <ResultCard key={item.id} shortcut={item} />
+                  )
+                )}
               </div>
             ) : (
               <div className="text-center py-12 text-text-muted">
-                <p className="text-lg">No shortcuts found for "{query}"</p>
+                <p className="text-lg">No results found for "{query}"</p>
                 <p className="text-sm mt-2">
                   Try different keywords or browse categories above
                 </p>
@@ -62,10 +71,22 @@ function App() {
                   {group.label}
                 </h2>
                 <div className="space-y-3">
-                  {group.items.map((shortcut) => (
+                  {group.shortcuts.map((shortcut) => (
                     <ResultCard key={shortcut.id} shortcut={shortcut} />
                   ))}
                 </div>
+                {group.workflows.length > 0 && (
+                  <div className="mt-4">
+                    <h3 className="text-text-muted text-xs font-semibold uppercase tracking-wider mb-2">
+                      Workflows
+                    </h3>
+                    <div className="space-y-3">
+                      {group.workflows.map((workflow) => (
+                        <WorkflowCard key={workflow.id} workflow={workflow} />
+                      ))}
+                    </div>
+                  </div>
+                )}
               </section>
             ))
           )}
