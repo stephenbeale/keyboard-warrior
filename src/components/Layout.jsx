@@ -26,8 +26,20 @@ export default function Layout({ children }) {
           {children}
         </main>
 
-        <footer className="border-t border-surface-lighter px-4 py-4 text-center text-text-muted text-xs">
-          Press <kbd>/</kbd> to search &middot; <kbd>Esc</kbd> to clear &middot; <kbd>Tab</kbd> to navigate
+        <footer className="border-t border-surface-lighter px-4 py-4 text-center text-text-muted text-xs space-y-1">
+          <p>Press <kbd>/</kbd> to search &middot; <kbd>Esc</kbd> to clear &middot; <kbd>Tab</kbd> to navigate</p>
+          <p>
+            ☕ Enjoying this? Consider{' '}
+            <a
+              href="https://buymeacoffee.com/stephenbeale"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-accent hover:text-accent-dim underline"
+            >
+              buying me a coffee
+            </a>
+            {' '}to support this site ☕
+          </p>
         </footer>
       </div>
     </>
