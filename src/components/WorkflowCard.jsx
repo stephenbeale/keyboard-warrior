@@ -1,4 +1,5 @@
 import { categories } from "../data/shortcuts";
+import CardFeedback from "./CardFeedback";
 
 function StepKeys({ keys }) {
   return (
@@ -65,6 +66,7 @@ export default function WorkflowCard({ workflow }) {
           {categoryLabel}
         </span>
       </div>
+      <CardFeedback id={workflow.id} />
     </article>
   );
 }

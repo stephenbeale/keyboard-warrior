@@ -1,4 +1,5 @@
 import { categories } from "../data/shortcuts";
+import CardFeedback from "./CardFeedback";
 
 export default function ResultCard({ shortcut }) {
   const categoryLabel =
@@ -38,6 +39,7 @@ export default function ResultCard({ shortcut }) {
           {categoryLabel}
         </span>
       </div>
+      <CardFeedback id={shortcut.id} />
     </article>
   );
 }
