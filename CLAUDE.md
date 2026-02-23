@@ -124,3 +124,43 @@ Do NOT change it back to `/keyboard-warrior/` (that was the GitHub Pages path).
 
 **Decision deferred:**
 - Whether to delete or repurpose `.github/workflows/deploy.yml` for SFTP auto-deploy
+
+---
+
+### 2026-02-23 - Session Summary
+
+**Work Completed:**
+- Created `ROADMAP.md` in project root — 4 phased feature groups: Phase 1 Polish,
+  Phase 2 Content Expansion, Phase 3 Engagement, Phase 4 Multi-Platform Architecture
+- Created `src/components/CardFeedback.jsx` — star rating (1-5 stars) and "Report Incorrect"
+  button; both states persisted to localStorage keyed by card id
+- Integrated `CardFeedback` into `src/components/ResultCard.jsx` and
+  `src/components/WorkflowCard.jsx` (import + `<CardFeedback id={...} />` at card footer)
+- Build verified passing
+- PRs merged:
+  - PR #8 - "Add star rating and report feedback to shortcut cards" (feature/rating-reporting)
+  - PR #9 - "Make coffee nudge more prominent with card-style layout" (feature/coffee-nudge-prominent)
+
+**Unfinished Git Workflows:**
+- None — all PRs merged, working tree clean
+
+**Note on CardFeedback Integration:**
+- After PR #8 merged, the user reported that the CardFeedback import/usage lines were
+  reverted from ResultCard.jsx and WorkflowCard.jsx locally (possibly via linter or manual
+  edit). At session closure, the current files on master DO still contain the CardFeedback
+  integration (confirmed by grep). If integration is missing locally, the merged master
+  commit `382c9ee` is the source of truth.
+
+**Next Steps:**
+1. Phase 1 roadmap item already done (star ratings). Next Phase 1 items per ROADMAP.md:
+   - Copy shortcut key combo to clipboard button
+   - Keyboard navigation through search results
+2. Consider adding more content (Phase 2): PowerToys shortcuts, WSL/Terminal, VS Code
+3. Hosting: verify keyboardwarrior.cc is live (DNS + SiteGround setup — see prior notes)
+
+**Technical Notes:**
+- `CardFeedback.jsx` uses localStorage keys in the format `feedback-rating-<id>` and
+  `feedback-reported-<id>` — keep these stable if IDs in shortcuts.js or workflows.js change
+- `ROADMAP.md` uses GitHub-flavored markdown checkboxes; Phase 1 star-rating item is
+  already marked `[x]` as done
+- Branch `feature/rating-reporting` deleted locally after merge confirmation
