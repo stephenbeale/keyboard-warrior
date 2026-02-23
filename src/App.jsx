@@ -3,6 +3,7 @@ import SearchBar from "./components/SearchBar";
 import CategoryFilter from "./components/CategoryFilter";
 import ResultCard from "./components/ResultCard";
 import WorkflowCard from "./components/WorkflowCard";
+import CoffeeNudge from "./components/CoffeeNudge";
 import { useSearch } from "./hooks/useSearch";
 import { categories } from "./data/shortcuts";
 
@@ -45,13 +46,16 @@ function App() {
           {isSearching ? (
             results.length > 0 ? (
               <div className="space-y-3">
-                {results.map((item) =>
-                  item.type === "workflow" ? (
-                    <WorkflowCard key={item.id} workflow={item} />
-                  ) : (
-                    <ResultCard key={item.id} shortcut={item} />
-                  )
-                )}
+                {results.map((item, i) => (
+                  <div key={item.id}>
+                    {item.type === "workflow" ? (
+                      <WorkflowCard workflow={item} />
+                    ) : (
+                      <ResultCard shortcut={item} />
+                    )}
+                    {i === 0 && <CoffeeNudge />}
+                  </div>
+                ))}
               </div>
             ) : (
               <div className="text-center py-12 text-text-muted">
@@ -62,7 +66,7 @@ function App() {
               </div>
             )
           ) : (
-            grouped.map((group) => (
+            grouped.map((group, gi) => (
               <section key={group.id} aria-labelledby={`heading-${group.id}`}>
                 <h2
                   id={`heading-${group.id}`}
@@ -71,8 +75,11 @@ function App() {
                   {group.label}
                 </h2>
                 <div className="space-y-3">
-                  {group.shortcuts.map((shortcut) => (
-                    <ResultCard key={shortcut.id} shortcut={shortcut} />
+                  {group.shortcuts.map((shortcut, si) => (
+                    <div key={shortcut.id}>
+                      <ResultCard shortcut={shortcut} />
+                      {gi === 0 && si === 0 && <CoffeeNudge />}
+                    </div>
                   ))}
                 </div>
                 {group.workflows.length > 0 && (
