@@ -8,10 +8,10 @@ GitHub repo: https://github.com/stephenbeale/keyboard-warrior
 
 ## Tech Stack
 
-- React 18 + Vite
-- Tailwind CSS v4 (via `@tailwindcss/vite` plugin)
-- Fuse.js for fuzzy search
-- GitHub Actions for CI (`.github/workflows/`)
+- React 19 + Vite 7
+- Tailwind CSS v4 (via `@tailwindcss/vite` plugin, no tailwind.config.js)
+- Fuse.js 7 for fuzzy search (token-based multi-word matching)
+- GitHub Actions for CI (`.github/workflows/deploy.yml`)
 
 ## Key Files
 
@@ -23,7 +23,11 @@ GitHub repo: https://github.com/stephenbeale/keyboard-warrior
 | `src/components/ResultCard.jsx` | Renders individual shortcut entries |
 | `src/hooks/useSearch.js` | Combined Fuse.js search across shortcuts + workflows |
 | `src/App.jsx` | Root component, grouped browse + search result rendering |
+| `src/components/CardFeedback.jsx` | Star rating + report incorrect (localStorage) |
+| `src/components/ThemeToggle.jsx` | Light/dark mode toggle with system preference detection |
+| `src/components/CoffeeNudge.jsx` | Buy Me a Coffee nudge (inline + footer) |
 | `vite.config.js` | base set to `/` for custom domain (not GitHub Pages) |
+| `ROADMAP.md` | Feature roadmap (4 phases) |
 
 ## Architecture Notes
 
@@ -38,9 +42,15 @@ In `App.jsx`, the grouped (non-search) view splits each category's items into `s
 and `workflows` arrays. Workflows render in a "Workflows" subsection below the shortcuts
 for each category.
 
+### Theme system
+`src/index.css` uses CSS custom property indirection: `@theme` references `var(--th-*)` variables.
+`:root` defines dark theme, `[data-theme="light"]` overrides for light. Flash-prevention script
+in `index.html <head>` sets `data-theme` before first paint via localStorage / prefers-color-scheme.
+
 ### Vite base path
 `base: '/'` in `vite.config.js` — this is correct for the custom domain `keyboardwarrior.cc`.
 Do NOT change it back to `/keyboard-warrior/` (that was the GitHub Pages path).
+GitHub Pages workflow uses `VITE_BASE` env var to override to `/keyboard-warrior/`.
 
 ---
 
@@ -152,15 +162,36 @@ Do NOT change it back to `/keyboard-warrior/` (that was the GitHub Pages path).
   commit `382c9ee` is the source of truth.
 
 **Next Steps:**
-1. Phase 1 roadmap item already done (star ratings). Next Phase 1 items per ROADMAP.md:
-   - Copy shortcut key combo to clipboard button
-   - Keyboard navigation through search results
-2. Consider adding more content (Phase 2): PowerToys shortcuts, WSL/Terminal, VS Code
-3. Hosting: verify keyboardwarrior.cc is live (DNS + SiteGround setup — see prior notes)
+1. Phase 1 roadmap items: copy to clipboard, favourites, PWA support
+2. Phase 2: multi-platform support (Mac, Linux), more workflows
+3. Hosting: complete SiteGround deployment (see 2026-02-24 notes)
+
+---
+
+### 2026-02-24 - Session Summary
+
+**Work Completed:**
+- Merged PR #5 (coffee nudge inline) and PR #7 (coffee nudge in footer)
+- Cleaned up stale local branches — only `master` remains
+- Fresh production build generated in `dist/`
+- Began SiteGround deployment:
+  - Phase 1 done: domain `keyboardwarrior.cc` added to SiteGround
+  - Phase 2 pending: user needs to update Namecheap nameservers to SiteGround's
+  - Phases 3-5 pending: file upload, SSL, verification
+
+**Hosting Deployment Status:**
+- Domain added to SiteGround (Phase 1 complete)
+- Namecheap nameservers NOT yet updated (Phase 2 pending)
+- Files NOT yet uploaded to `public_html/` (Phase 3 pending)
+- SSL NOT yet installed (Phase 4 pending)
+- Remaining phases: update NS on Namecheap, upload dist/ to public_html, install SSL, verify
+
+**Git Status:**
+- Working tree: clean
+- All PRs merged (#1-#9)
+- Only `master` branch locally
 
 **Technical Notes:**
-- `CardFeedback.jsx` uses localStorage keys in the format `feedback-rating-<id>` and
-  `feedback-reported-<id>` — keep these stable if IDs in shortcuts.js or workflows.js change
-- `ROADMAP.md` uses GitHub-flavored markdown checkboxes; Phase 1 star-rating item is
-  already marked `[x]` as done
-- Branch `feature/rating-reporting` deleted locally after merge confirmation
+- `CardFeedback.jsx` localStorage keys: `rating:<id>` and `report:<id>`
+- `CoffeeNudge.jsx` renders in two places: inline after first result (App.jsx) and in footer (Layout.jsx)
+- `website-deployer` agent updated: recognizes "SG"/"HG" shorthand, uses clickable markdown links
