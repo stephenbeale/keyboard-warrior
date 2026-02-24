@@ -9,7 +9,8 @@
 
 ## Phase 2 - Content Expansion
 
-- [ ] Multi-platform support (Mac, Linux) with landing page platform selector
+- [ ] OS home page — landing page with platform picker (Windows / Mac / Linux), then navigate to filtered search page for selected OS
+- [ ] Multi-platform support (Mac, Linux) with platform-specific shortcut data
 - [ ] More workflows (PowerToys, WSL, Terminal tricks)
 - [ ] Skill level tags (beginner / intermediate / advanced)
 
@@ -24,7 +25,7 @@
 
 When we add Mac and Linux support, here's the plan:
 
-- **Landing page** with platform picker (Windows / Mac / Linux)
+- **OS home page** with platform picker (Windows / Mac / Linux) leading into the OS-filtered search page
 - **Platform-specific data files:** `shortcuts-windows.js`, `shortcuts-mac.js`, `shortcuts-linux.js`
 - **Shared categories** where applicable (General, Browser, Text Editing)
 - **Platform-specific categories** (File Explorer vs Finder vs Nautilus)
