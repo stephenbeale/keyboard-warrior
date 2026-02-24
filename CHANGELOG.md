@@ -4,6 +4,11 @@
 
 ### Added
 - Coffee nudge in site footer (always visible)
+- `CardFeedback` suggest-alternative input: clicking "Report" now expands an inline text
+  input so users can suggest a correction; suggestion persists to localStorage alongside
+  the report flag; "(with suggestion)" badge shown when saved; clearing report also clears
+  the stored suggestion (PR #10)
+- ROADMAP.md Phase 2 gains "OS home page" item (platform picker -> filtered search)
 
 ### Changed
 - Cleaned up stale git branches

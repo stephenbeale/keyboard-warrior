@@ -178,6 +178,12 @@ GitHub Pages workflow uses `VITE_BASE` env var to override to `/keyboard-warrior
   - Phase 1 done: domain `keyboardwarrior.cc` added to SiteGround
   - Phase 2 pending: user needs to update Namecheap nameservers to SiteGround's
   - Phases 3-5 pending: file upload, SSL, verification
+- PR #10 merged: `CardFeedback` report button now expands an inline suggest-alternative
+  text input; suggestion persisted to localStorage (`suggestion:<id>`); "(with suggestion)"
+  badge shown next to "Reported"; clearing report also clears the stored suggestion
+- `ROADMAP.md` updated: Phase 2 gains "OS home page" item (platform picker -> OS-filtered
+  search); Phase 4 wording updated to reference home page -> filtered search flow
+- `website-deployer` agent updated: recognizes "SG"/"HG" shorthand, uses clickable markdown links
 
 **Hosting Deployment Status:**
 - Domain added to SiteGround (Phase 1 complete)
@@ -188,10 +194,10 @@ GitHub Pages workflow uses `VITE_BASE` env var to override to `/keyboard-warrior
 
 **Git Status:**
 - Working tree: clean
-- All PRs merged (#1-#9)
+- All PRs merged (#1-#10)
 - Only `master` branch locally
 
 **Technical Notes:**
-- `CardFeedback.jsx` localStorage keys: `rating:<id>` and `report:<id>`
+- `CardFeedback.jsx` localStorage keys: `rating:<id>`, `report:<id>`, `suggestion:<id>`
 - `CoffeeNudge.jsx` renders in two places: inline after first result (App.jsx) and in footer (Layout.jsx)
-- `website-deployer` agent updated: recognizes "SG"/"HG" shorthand, uses clickable markdown links
+- All three localStorage keys for a card are cleared together when user un-reports
