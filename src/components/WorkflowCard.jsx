@@ -1,5 +1,7 @@
 import { categories } from "../data/shortcuts";
 import CardFeedback from "./CardFeedback";
+import CopyButton from "./CopyButton";
+import FavouriteButton from "./FavouriteButton";
 
 function StepKeys({ keys }) {
   return (
@@ -15,6 +17,15 @@ function StepKeys({ keys }) {
       )}
     </span>
   );
+}
+
+function buildCopyText(workflow) {
+  return workflow.steps
+    .map((step, i) => {
+      const line = `${i + 1}. ${step.instruction}`;
+      return step.keys ? `${line} (${step.keys})` : line;
+    })
+    .join("\n");
 }
 
 export default function WorkflowCard({ workflow }) {
@@ -61,10 +72,14 @@ export default function WorkflowCard({ workflow }) {
         ))}
       </ol>
 
-      <div className="mt-3">
+      <div className="mt-3 flex items-center justify-between">
         <span className="inline-block px-2 py-0.5 rounded text-xs font-medium bg-surface-lighter text-text-muted">
           {categoryLabel}
         </span>
+        <div className="flex items-center gap-3">
+          <CopyButton text={buildCopyText(workflow)} label="Copy workflow steps" />
+          <FavouriteButton id={workflow.id} />
+        </div>
       </div>
       <CardFeedback id={workflow.id} />
     </article>

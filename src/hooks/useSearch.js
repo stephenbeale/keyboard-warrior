@@ -2,6 +2,7 @@ import { useMemo, useState, useCallback } from "react";
 import Fuse from "fuse.js";
 import { shortcuts } from "../data/shortcuts";
 import { workflows } from "../data/workflows";
+import { useFavourites } from "./useFavourites";
 
 const shortcutItems = shortcuts.map((s) => ({ ...s, type: "shortcut" }));
 const workflowItems = workflows.map((w) => ({ ...w, type: "workflow" }));
@@ -67,6 +68,7 @@ function tokenSearch(fuse, query) {
 export function useSearch() {
   const [query, setQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const { favourites } = useFavourites();
 
   const fuse = useMemo(() => new Fuse(allItems, fuseOptions), []);
 
@@ -97,12 +99,14 @@ export function useSearch() {
         .sort((a, b) => a._sortScore - b._sortScore);
     }
 
-    if (selectedCategory) {
+    if (selectedCategory === "__favourites") {
+      items = items.filter((item) => favourites.includes(item.id));
+    } else if (selectedCategory) {
       items = items.filter((item) => item.category === selectedCategory);
     }
 
     return items;
-  }, [query, selectedCategory, fuse]);
+  }, [query, selectedCategory, fuse, favourites]);
 
   const clearSearch = useCallback(() => {
     setQuery("");

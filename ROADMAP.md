@@ -1,11 +1,11 @@
 # Keyboard Warrior - Roadmap
 
-## Phase 1 - Polish (next up)
+## Phase 1 - Polish (complete)
 
 - [x] Star ratings + report incorrect button on shortcut/workflow cards
-- [ ] Copy shortcut to clipboard button
-- [ ] Favourites / "My Shortcuts" (localStorage)
-- [ ] PWA support (offline, installable)
+- [x] Copy shortcut to clipboard button
+- [x] Favourites / "My Shortcuts" (localStorage)
+- [x] PWA support (offline, installable)
 
 ## Phase 2 - Content Expansion
 

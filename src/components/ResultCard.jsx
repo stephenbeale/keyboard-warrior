@@ -1,5 +1,7 @@
 import { categories } from "../data/shortcuts";
 import CardFeedback from "./CardFeedback";
+import CopyButton from "./CopyButton";
+import FavouriteButton from "./FavouriteButton";
 
 export default function ResultCard({ shortcut }) {
   const categoryLabel =
@@ -23,7 +25,7 @@ export default function ResultCard({ shortcut }) {
         <div className="flex-shrink-0 sm:text-right">
           <span className="text-accent font-mono text-sm whitespace-nowrap">
             {shortcut.keysDisplay.split(" ").map((part, i) =>
-              part === "+" || part === "→" || part === "/" ? (
+              part === "+" || part === "\u2192" || part === "/" ? (
                 <span key={i} className="text-text-muted mx-0.5">
                   {part === "+" ? " + " : ` ${part} `}
                 </span>
@@ -34,10 +36,14 @@ export default function ResultCard({ shortcut }) {
           </span>
         </div>
       </div>
-      <div className="mt-3">
+      <div className="mt-3 flex items-center justify-between">
         <span className="inline-block px-2 py-0.5 rounded text-xs font-medium bg-surface-lighter text-text-muted">
           {categoryLabel}
         </span>
+        <div className="flex items-center gap-3">
+          <CopyButton text={shortcut.keysDisplay} label="Copy shortcut" />
+          <FavouriteButton id={shortcut.id} />
+        </div>
       </div>
       <CardFeedback id={shortcut.id} />
     </article>
