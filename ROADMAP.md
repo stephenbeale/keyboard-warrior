@@ -13,9 +13,24 @@
 - [ ] Multi-platform support (Mac, Linux) with platform-specific shortcut data
 - [ ] More workflows (PowerToys, WSL, Terminal tricks)
 - [ ] Skill level tags (beginner / intermediate / advanced)
+- [ ] Add "workflow" tag/badge for entries that aren't direct keyboard shortcuts but multi-step methods to achieve a task
+
+### New shortcuts & workflows to add
+
+- [ ] Shut down PC (Ctrl+X, U, U)
+- [ ] Select entire paragraph — keyboard methods
+- [ ] Edit multiple lines simultaneously — keyboard methods (if possible)
+- [ ] How to select the task bar (keyboard method)
+- [ ] How to simulate drag and drop with the keyboard
+- [ ] Browser tab splitting workaround — Ctrl+L → Ctrl+C → close tab → Ctrl+N → snap with Win+Arrows
+- [ ] Right click via keyboard — Shift+F10 / context menu key (remind user to look for the key on their keyboard)
+- [ ] Select task bar calendar/clock with keyboard
+- [ ] Select specific items pinned on task bar with keyboard
+- [ ] Change File Explorer views with keyboard
 
 ## Phase 3 - Engagement
 
+- [ ] User submission form — allow users to suggest shortcuts/workflows (must be validated/moderated before going live)
 - [ ] Shortcut of the day
 - [ ] Quiz / practice mode
 - [ ] Printable cheat sheet
