@@ -1,5 +1,6 @@
 import ThemeToggle from './ThemeToggle';
 import CoffeeNudge from './CoffeeNudge';
+import HostingNudge from './HostingNudge';
 
 export default function Layout({ children }) {
   return (
@@ -30,6 +31,7 @@ export default function Layout({ children }) {
         <footer className="border-t border-surface-lighter px-4 py-4 text-center text-text-muted text-xs">
           Press <kbd>/</kbd> to search &middot; <kbd>Esc</kbd> to clear &middot; <kbd>Tab</kbd> to navigate
           <CoffeeNudge />
+          <HostingNudge />
         </footer>
       </div>
     </>

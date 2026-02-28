@@ -8,6 +8,7 @@
 - [x] Copy shortcut to clipboard button
 - [x] Favourites / "My Shortcuts" (localStorage)
 - [x] `/` keyboard shortcut to focus the search bar from anywhere in the app
+- [x] SiteGround affiliate link nudge in footer
 - [ ] PWA support (offline, installable)
 
 ## Phase 2 - Content Expansion
