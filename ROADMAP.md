@@ -3,7 +3,7 @@
 ## Phase 1 - Polish (next up)
 
 - [x] Star ratings + report incorrect button on shortcut/workflow cards
-- [ ] Redesign feedback bar: "Rate this shortcut" label next to stars with submit button; rename "Report" to "Improve this!" with expandable text box and submit button
+- [x] Redesign feedback bar: "Rate this shortcut" label next to stars with submit button; rename "Report" to "Improve this!" with expandable text box and submit button
 - [ ] Feedback backend via Supabase (free tier) — thumbs up/down ratings + "Improve this!" text submissions; display aggregate ratings to all users
 - [x] Copy shortcut to clipboard button
 - [x] Favourites / "My Shortcuts" (localStorage)
