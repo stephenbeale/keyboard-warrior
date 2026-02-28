@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { submitFeedback } from "../lib/supabase";
+import { useFeedbackStats } from "../hooks/useFeedbackStats";
 
 function getStorageKey(id, type) {
   return `${type}:${id}`;
@@ -37,6 +39,10 @@ function saveSuggestion(id, text) {
   }
 }
 
+function getItemType(id) {
+  return typeof id === "string" && id.startsWith("w") ? "workflow" : "shortcut";
+}
+
 export default function CardFeedback({ id }) {
   const [rating, setRating] = useState(() => loadRating(id));
   const [hoveredStar, setHoveredStar] = useState(0);
@@ -46,11 +52,15 @@ export default function CardFeedback({ id }) {
   const [saved, setSaved] = useState(() => !!loadSuggestion(id));
   const [ratingSubmitted, setRatingSubmitted] = useState(() => loadRating(id) > 0);
 
+  const stats = useFeedbackStats(id);
+  const itemType = getItemType(id);
+
   function handleRate(star) {
     const newRating = star === rating ? 0 : star;
     setRating(newRating);
     saveRating(id, newRating);
     setRatingSubmitted(newRating > 0);
+    submitFeedback(String(id), itemType, newRating || null, undefined).catch(() => {});
   }
 
   function handleImprove() {
@@ -72,6 +82,7 @@ export default function CardFeedback({ id }) {
   function handleSaveSuggestion() {
     saveSuggestion(id, suggestion);
     setSaved(true);
+    submitFeedback(String(id), itemType, rating || null, suggestion).catch(() => {});
   }
 
   const displayRating = hoveredStar || rating;
@@ -104,6 +115,11 @@ export default function CardFeedback({ id }) {
           </div>
           {ratingSubmitted && (
             <span className="text-[10px] text-green-400">Submitted</span>
+          )}
+          {stats && stats.ratingCount > 0 && (
+            <span className="text-[10px] text-text-muted">
+              ({stats.avgRating} avg, {stats.ratingCount} {stats.ratingCount === 1 ? "rating" : "ratings"})
+            </span>
           )}
         </div>
 

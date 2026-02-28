@@ -7,6 +7,7 @@ import CoffeeNudge from "./components/CoffeeNudge";
 import { useSearch } from "./hooks/useSearch";
 import { useFavourites } from "./hooks/useFavourites";
 import { categories } from "./data/shortcuts";
+import { FeedbackStatsProvider } from "./hooks/useFeedbackStats";
 
 function App() {
   const { query, setQuery, selectedCategory, setSelectedCategory, results, clearSearch } =
@@ -36,6 +37,7 @@ function App() {
     : null;
 
   return (
+    <FeedbackStatsProvider>
     <Layout>
       <div className="space-y-6">
         <SearchBar
@@ -133,6 +135,7 @@ function App() {
         </div>
       </div>
     </Layout>
+    </FeedbackStatsProvider>
   );
 }
 
