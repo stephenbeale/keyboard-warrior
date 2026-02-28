@@ -44,14 +44,16 @@ export default function CardFeedback({ id }) {
   const [showInput, setShowInput] = useState(() => loadReport(id));
   const [suggestion, setSuggestion] = useState(() => loadSuggestion(id));
   const [saved, setSaved] = useState(() => !!loadSuggestion(id));
+  const [ratingSubmitted, setRatingSubmitted] = useState(() => loadRating(id) > 0);
 
   function handleRate(star) {
     const newRating = star === rating ? 0 : star;
     setRating(newRating);
     saveRating(id, newRating);
+    setRatingSubmitted(newRating > 0);
   }
 
-  function handleReport() {
+  function handleImprove() {
     if (reported) {
       setReported(false);
       saveReport(id, false);
@@ -78,55 +80,61 @@ export default function CardFeedback({ id }) {
   return (
     <div className="mt-3 pt-2 border-t border-surface-lighter">
       <div className="flex items-center justify-between">
-        <div
-          className="flex items-center gap-0.5"
-          onMouseLeave={() => setHoveredStar(0)}
-        >
-          {[1, 2, 3, 4, 5].map((star) => (
-            <button
-              key={star}
-              type="button"
-              onClick={() => handleRate(star)}
-              onMouseEnter={() => setHoveredStar(star)}
-              className="p-0.5 text-base leading-none cursor-pointer bg-transparent border-none transition-transform hover:scale-110"
-              aria-label={`Rate ${star} out of 5`}
-              title={`Rate ${star} out of 5`}
-            >
-              <span className={star <= displayRating ? "text-amber-400" : "text-text-muted/40"}>
-                {star <= displayRating ? "\u2605" : "\u2606"}
-              </span>
-            </button>
-          ))}
+        <div className="flex items-center gap-2">
+          <span className="text-text-muted text-xs">Rate this shortcut</span>
+          <div
+            className="flex items-center gap-0.5"
+            onMouseLeave={() => setHoveredStar(0)}
+          >
+            {[1, 2, 3, 4, 5].map((star) => (
+              <button
+                key={star}
+                type="button"
+                onClick={() => handleRate(star)}
+                onMouseEnter={() => setHoveredStar(star)}
+                className="p-0.5 text-base leading-none cursor-pointer bg-transparent border-none transition-transform hover:scale-110"
+                aria-label={`Rate ${star} out of 5`}
+                title={`Rate ${star} out of 5`}
+              >
+                <span className={star <= displayRating ? "text-amber-400" : "text-text-muted/40"}>
+                  {star <= displayRating ? "\u2605" : "\u2606"}
+                </span>
+              </button>
+            ))}
+          </div>
+          {ratingSubmitted && (
+            <span className="text-[10px] text-green-400">Submitted</span>
+          )}
         </div>
 
         <button
           type="button"
-          onClick={handleReport}
+          onClick={handleImprove}
           className={`flex items-center gap-1 text-xs cursor-pointer bg-transparent border-none transition-colors ${
             reported
-              ? "text-red-400"
+              ? "text-accent"
               : "text-text-muted hover:text-text-secondary"
           }`}
-          aria-label={reported ? "Clear report" : "Report incorrect"}
-          title={reported ? "Click to clear report" : "Report incorrect"}
+          aria-label={reported ? "Collapse suggestion" : "Improve this shortcut"}
+          title={reported ? "Click to collapse" : "Suggest an improvement"}
         >
           <svg
             width="14"
             height="14"
             viewBox="0 0 24 24"
-            fill={reported ? "currentColor" : "none"}
+            fill="none"
             stroke="currentColor"
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
             aria-hidden="true"
           >
-            <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
-            <line x1="4" y1="22" x2="4" y2="15" />
+            <path d="M12 20h9" />
+            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z" />
           </svg>
-          {reported ? "Reported" : "Report"}
+          Improve this!
           {hasSuggestion && (
-            <span className="text-[10px] opacity-70">(with suggestion)</span>
+            <span className="text-[10px] text-green-400">(submitted)</span>
           )}
         </button>
       </div>
@@ -143,7 +151,7 @@ export default function CardFeedback({ id }) {
             onKeyDown={(e) => {
               if (e.key === "Enter" && suggestion.trim()) handleSaveSuggestion();
             }}
-            placeholder="Suggest the correct shortcut..."
+            placeholder="What should it say instead?"
             className="flex-1 px-2 py-1 text-xs rounded border border-surface-lighter bg-surface text-text-primary placeholder:text-text-muted/50 outline-none focus:border-accent"
           />
           <button
@@ -152,7 +160,7 @@ export default function CardFeedback({ id }) {
             disabled={!suggestion.trim()}
             className="px-2 py-1 text-xs rounded bg-accent text-white border-none cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed transition-opacity"
           >
-            {saved ? "Saved" : "Save"}
+            {saved ? "Submitted" : "Submit"}
           </button>
         </div>
       )}
