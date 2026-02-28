@@ -1,7 +1,7 @@
 import { useRef, useCallback } from "react";
 import { categories } from "../data/shortcuts";
 
-export default function CategoryFilter({ selectedCategory, setSelectedCategory }) {
+export default function CategoryFilter({ selectedCategory, setSelectedCategory, favouriteCount = 0 }) {
   const containerRef = useRef(null);
 
   const handleKeyDown = useCallback(
@@ -47,6 +47,21 @@ export default function CategoryFilter({ selectedCategory, setSelectedCategory }
       >
         All
       </button>
+      {favouriteCount > 0 && (
+        <button
+          onClick={() =>
+            setSelectedCategory(selectedCategory === "favourites" ? null : "favourites")
+          }
+          className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+            selectedCategory === "favourites"
+              ? "bg-red-400 text-surface"
+              : "bg-surface-light text-text-secondary hover:bg-surface-lighter hover:text-text-primary"
+          }`}
+          aria-pressed={selectedCategory === "favourites"}
+        >
+          Favourites ({favouriteCount})
+        </button>
+      )}
       {categories.map((cat) => (
         <button
           key={cat.id}

@@ -1,8 +1,9 @@
 import { categories } from "../data/shortcuts";
 import CardFeedback from "./CardFeedback";
 import CopyButton from "./CopyButton";
+import FavouriteButton from "./FavouriteButton";
 
-export default function ResultCard({ shortcut }) {
+export default function ResultCard({ shortcut, isFavourite, onToggleFavourite }) {
   const categoryLabel =
     categories.find((c) => c.id === shortcut.category)?.label ?? shortcut.category;
 
@@ -40,6 +41,7 @@ export default function ResultCard({ shortcut }) {
           {categoryLabel}
         </span>
         <CopyButton text={shortcut.keysDisplay} />
+        <FavouriteButton isFavourite={isFavourite} onToggle={onToggleFavourite} />
       </div>
       <CardFeedback id={shortcut.id} />
     </article>
