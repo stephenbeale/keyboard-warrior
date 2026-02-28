@@ -1,5 +1,6 @@
 import { categories } from "../data/shortcuts";
 import CardFeedback from "./CardFeedback";
+import CopyButton from "./CopyButton";
 
 export default function ResultCard({ shortcut }) {
   const categoryLabel =
@@ -34,10 +35,11 @@ export default function ResultCard({ shortcut }) {
           </span>
         </div>
       </div>
-      <div className="mt-3">
+      <div className="mt-3 flex items-center gap-2">
         <span className="inline-block px-2 py-0.5 rounded text-xs font-medium bg-surface-lighter text-text-muted">
           {categoryLabel}
         </span>
+        <CopyButton text={shortcut.keysDisplay} />
       </div>
       <CardFeedback id={shortcut.id} />
     </article>

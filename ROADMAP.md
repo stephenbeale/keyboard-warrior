@@ -3,14 +3,17 @@
 ## Phase 1 - Polish (next up)
 
 - [x] Star ratings + report incorrect button on shortcut/workflow cards
+- [ ] Redesign feedback bar: "Rate this shortcut" label next to stars with submit button; rename "Report" to "Improve this!" with expandable text box and submit button
+- [ ] Feedback backend via Supabase (free tier) — thumbs up/down ratings + "Improve this!" text submissions; display aggregate ratings to all users
 - [ ] Copy shortcut to clipboard button
 - [ ] Favourites / "My Shortcuts" (localStorage)
 - [ ] PWA support (offline, installable)
 
 ## Phase 2 - Content Expansion
 
-- [ ] OS home page — landing page with platform picker (Windows / Mac / Linux), then navigate to filtered search page for selected OS
-- [ ] Multi-platform support (Mac, Linux) with platform-specific shortcut data
+- [ ] **OS home page** — landing page with large buttons for Windows, Mac, and Linux; each leads to the OS-filtered shortcuts/search page. Persist choice in localStorage so returning users skip the picker.
+- [ ] Mac shortcuts data (`shortcuts-mac.js`) — Cmd-based equivalents, Finder workflows, Spotlight, Mission Control
+- [ ] Linux shortcuts data (`shortcuts-linux.js`) — Super key, Nautilus/Files, terminal workflows, common DE shortcuts (GNOME/KDE)
 - [ ] More workflows (PowerToys, WSL, Terminal tricks)
 - [ ] Skill level tags (beginner / intermediate / advanced)
 
