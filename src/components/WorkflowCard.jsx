@@ -1,6 +1,7 @@
 import { categories } from "../data/shortcuts";
 import CardFeedback from "./CardFeedback";
 import CopyButton from "./CopyButton";
+import FavouriteButton from "./FavouriteButton";
 
 function StepKeys({ keys }) {
   return (
@@ -27,7 +28,7 @@ function formatWorkflowText(workflow) {
     .join("\n");
 }
 
-export default function WorkflowCard({ workflow }) {
+export default function WorkflowCard({ workflow, isFavourite, onToggleFavourite }) {
   const categoryLabel =
     categories.find((c) => c.id === workflow.category)?.label ??
     workflow.category;
@@ -76,6 +77,7 @@ export default function WorkflowCard({ workflow }) {
           {categoryLabel}
         </span>
         <CopyButton text={formatWorkflowText(workflow)} />
+        <FavouriteButton isFavourite={isFavourite} onToggle={onToggleFavourite} />
       </div>
       <CardFeedback id={workflow.id} />
     </article>
