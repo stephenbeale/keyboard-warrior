@@ -4,7 +4,7 @@ export default function HostingNudge() {
       <p className="text-text-secondary text-sm">
         Want to make a site like this? Get the same hosting with{' '}
         <a
-          href="https://www.siteground.com/index.htm?afcode=YOUR_AFFILIATE_CODE"
+          href="https://www.siteground.com/go/steve"
           target="_blank"
           rel="noopener noreferrer"
           className="font-semibold text-accent hover:text-accent-dim underline"
