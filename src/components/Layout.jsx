@@ -32,6 +32,14 @@ export default function Layout({ children }) {
           Press <kbd>/</kbd> to search &middot; <kbd>Esc</kbd> to clear &middot; <kbd>Tab</kbd> to navigate
           <CoffeeNudge />
           <HostingNudge />
+          <div className="mt-3 pt-3 border-t border-surface-lighter text-xs text-text-muted">
+            Also by me:{' '}
+            <a href="https://waffley.app" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">Waffley</a>
+            {' '}&middot;{' '}
+            <a href="https://stephenbeale.github.io/snout/" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">Snout</a>
+            {' '}&middot;{' '}
+            <a href="https://stephenbeale.github.io/job-compare/" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">JobWeigh</a>
+          </div>
         </footer>
       </div>
     </>
