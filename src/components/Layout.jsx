@@ -2,7 +2,13 @@ import ThemeToggle from './ThemeToggle';
 import CoffeeNudge from './CoffeeNudge';
 import HostingNudge from './HostingNudge';
 
-export default function Layout({ children }) {
+const OS_LABELS = {
+  windows: '⊞ Windows',
+  mac: '⌘ Mac',
+  linux: '🐧 Linux',
+};
+
+export default function Layout({ children, onChangeOS, selectedOS }) {
   return (
     <>
       <a href="#main-content" className="skip-link">
@@ -20,7 +26,19 @@ export default function Layout({ children }) {
                 Navigate Windows without a mouse — search for shortcuts & tips
               </p>
             </div>
-            <ThemeToggle />
+            <div className="flex items-center gap-2">
+              {selectedOS && onChangeOS && (
+                <button
+                  onClick={onChangeOS}
+                  aria-label="Change operating system"
+                  title="Switch platform"
+                  className="text-xs px-2 py-1 rounded-full bg-surface-lighter text-text-secondary hover:text-text-primary transition-colors cursor-pointer"
+                >
+                  {OS_LABELS[selectedOS] ?? selectedOS}
+                </button>
+              )}
+              <ThemeToggle />
+            </div>
           </div>
         </header>
 
