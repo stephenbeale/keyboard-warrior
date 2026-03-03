@@ -3,7 +3,7 @@ import ThemeToggle from './ThemeToggle';
 
 const OS_OPTIONS = [
   { id: 'windows', label: 'Windows', emoji: '🪟' },
-  { id: 'mac',     label: 'Mac',     emoji: '🍎', comingSoon: true },
+  { id: 'mac',     label: 'Mac',     emoji: '🍎' },
   { id: 'linux',   label: 'Linux',   emoji: '🐧', comingSoon: true },
 ];
 

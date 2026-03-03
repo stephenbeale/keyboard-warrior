@@ -1,4 +1,3 @@
-import { categories } from "../data/shortcuts";
 import CardFeedback from "./CardFeedback";
 import CopyButton from "./CopyButton";
 import FavouriteButton from "./FavouriteButton";
@@ -28,7 +27,7 @@ function formatWorkflowText(workflow) {
     .join("\n");
 }
 
-export default function WorkflowCard({ workflow, isFavourite, onToggleFavourite }) {
+export default function WorkflowCard({ workflow, isFavourite, onToggleFavourite, categories = [] }) {
   const categoryLabel =
     categories.find((c) => c.id === workflow.category)?.label ??
     workflow.category;

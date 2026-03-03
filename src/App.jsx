@@ -8,12 +8,19 @@ import WorkflowCard from "./components/WorkflowCard";
 import CoffeeNudge from "./components/CoffeeNudge";
 import { useSearch } from "./hooks/useSearch";
 import { useFavourites } from "./hooks/useFavourites";
-import { categories } from "./data/shortcuts";
+import { shortcuts, categories } from "./data/shortcuts";
+import { workflows } from "./data/workflows";
+import { macShortcuts, macCategories } from "./data/shortcuts-mac";
+import { workflowsMac } from "./data/workflows-mac";
 import { FeedbackStatsProvider } from "./hooks/useFeedbackStats";
 
 function AppContent({ selectedOS, onChangeOS }) {
+  const platformShortcuts  = selectedOS === "mac" ? macShortcuts  : shortcuts;
+  const platformWorkflows  = selectedOS === "mac" ? workflowsMac  : workflows;
+  const platformCategories = selectedOS === "mac" ? macCategories : categories;
+
   const { query, setQuery, selectedCategory, setSelectedCategory, results, clearSearch } =
-    useSearch();
+    useSearch(platformShortcuts, platformWorkflows);
   const { toggleFavourite, isFavourite, count: favouriteCount } = useFavourites();
 
   const isSearching = query.trim().length >= 2;
@@ -26,7 +33,7 @@ function AppContent({ selectedOS, onChangeOS }) {
 
   // Group results by category when not searching
   const grouped = !isSearching
-    ? categories
+    ? platformCategories
         .map((cat) => {
           const catItems = filteredResults.filter((r) => r.category === cat.id);
           return {
@@ -53,6 +60,7 @@ function AppContent({ selectedOS, onChangeOS }) {
             selectedCategory={selectedCategory}
             setSelectedCategory={setSelectedCategory}
             favouriteCount={favouriteCount}
+            categories={platformCategories}
           />
 
           <div className="space-y-6" role="region" aria-label="Search results">
@@ -66,12 +74,14 @@ function AppContent({ selectedOS, onChangeOS }) {
                           workflow={item}
                           isFavourite={isFavourite(item.id)}
                           onToggleFavourite={() => toggleFavourite(item.id)}
+                          categories={platformCategories}
                         />
                       ) : (
                         <ResultCard
                           shortcut={item}
                           isFavourite={isFavourite(item.id)}
                           onToggleFavourite={() => toggleFavourite(item.id)}
+                          categories={platformCategories}
                         />
                       )}
                       {i === 0 && <CoffeeNudge />}
@@ -102,6 +112,7 @@ function AppContent({ selectedOS, onChangeOS }) {
                           shortcut={shortcut}
                           isFavourite={isFavourite(shortcut.id)}
                           onToggleFavourite={() => toggleFavourite(shortcut.id)}
+                          categories={platformCategories}
                         />
                         {gi === 0 && si === 0 && <CoffeeNudge />}
                       </div>
@@ -119,6 +130,7 @@ function AppContent({ selectedOS, onChangeOS }) {
                             workflow={workflow}
                             isFavourite={isFavourite(workflow.id)}
                             onToggleFavourite={() => toggleFavourite(workflow.id)}
+                            categories={platformCategories}
                           />
                         ))}
                       </div>

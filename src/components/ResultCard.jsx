@@ -1,9 +1,8 @@
-import { categories } from "../data/shortcuts";
 import CardFeedback from "./CardFeedback";
 import CopyButton from "./CopyButton";
 import FavouriteButton from "./FavouriteButton";
 
-export default function ResultCard({ shortcut, isFavourite, onToggleFavourite }) {
+export default function ResultCard({ shortcut, isFavourite, onToggleFavourite, categories = [] }) {
   const categoryLabel =
     categories.find((c) => c.id === shortcut.category)?.label ?? shortcut.category;
 
