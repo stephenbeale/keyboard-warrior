@@ -1156,4 +1156,13 @@ export const shortcuts = [
     category: "system",
     tags: ["microphone", "mute", "recording", "audio", "game bar"],
   },
+  {
+    id: 126,
+    title: "Cycle through windows without preview",
+    keys: ["Alt", "Esc"],
+    keysDisplay: "Alt + Esc",
+    description: "Switches focus to the next open window in the order they were opened, without showing the thumbnail overlay. Unlike Alt+Tab, windows are activated directly — useful for distraction-free cycling.",
+    category: "task-switching",
+    tags: ["alt esc", "cycle", "switch", "windows", "no preview", "focus", "next window"],
+  },
 ];
