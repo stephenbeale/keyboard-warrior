@@ -1,4 +1,6 @@
+import { useState } from "react";
 import Layout from "./components/Layout";
+import PlatformPicker from "./components/PlatformPicker";
 import SearchBar from "./components/SearchBar";
 import CategoryFilter from "./components/CategoryFilter";
 import ResultCard from "./components/ResultCard";
@@ -9,7 +11,7 @@ import { useFavourites } from "./hooks/useFavourites";
 import { categories } from "./data/shortcuts";
 import { FeedbackStatsProvider } from "./hooks/useFeedbackStats";
 
-function App() {
+function AppContent({ selectedOS, onChangeOS }) {
   const { query, setQuery, selectedCategory, setSelectedCategory, results, clearSearch } =
     useSearch();
   const { toggleFavourite, isFavourite, count: favouriteCount } = useFavourites();
@@ -38,105 +40,127 @@ function App() {
 
   return (
     <FeedbackStatsProvider>
-    <Layout>
-      <div className="space-y-6">
-        <SearchBar
-          query={query}
-          setQuery={setQuery}
-          clearSearch={clearSearch}
-          resultCount={filteredResults.length}
-        />
+      <Layout onChangeOS={onChangeOS} selectedOS={selectedOS}>
+        <div className="space-y-6">
+          <SearchBar
+            query={query}
+            setQuery={setQuery}
+            clearSearch={clearSearch}
+            resultCount={filteredResults.length}
+          />
 
-        <CategoryFilter
-          selectedCategory={selectedCategory}
-          setSelectedCategory={setSelectedCategory}
-          favouriteCount={favouriteCount}
-        />
+          <CategoryFilter
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+            favouriteCount={favouriteCount}
+          />
 
-        <div className="space-y-6" role="region" aria-label="Search results">
-          {isSearching ? (
-            filteredResults.length > 0 ? (
-              <div className="space-y-3">
-                {filteredResults.map((item, i) => (
-                  <div key={item.id}>
-                    {item.type === "workflow" ? (
-                      <WorkflowCard
-                        workflow={item}
-                        isFavourite={isFavourite(item.id)}
-                        onToggleFavourite={() => toggleFavourite(item.id)}
-                      />
-                    ) : (
-                      <ResultCard
-                        shortcut={item}
-                        isFavourite={isFavourite(item.id)}
-                        onToggleFavourite={() => toggleFavourite(item.id)}
-                      />
-                    )}
-                    {i === 0 && <CoffeeNudge />}
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-12 text-text-muted">
-                <p className="text-lg">No results found for &ldquo;{query}&rdquo;</p>
-                <p className="text-sm mt-2">
-                  Try different keywords or browse categories above
-                </p>
-              </div>
-            )
-          ) : grouped.length > 0 ? (
-            grouped.map((group, gi) => (
-              <section key={group.id} aria-labelledby={`heading-${group.id}`}>
-                <h2
-                  id={`heading-${group.id}`}
-                  className="text-text-secondary text-sm font-semibold uppercase tracking-wider mb-3"
-                >
-                  {group.label}
-                </h2>
+          <div className="space-y-6" role="region" aria-label="Search results">
+            {isSearching ? (
+              filteredResults.length > 0 ? (
                 <div className="space-y-3">
-                  {group.shortcuts.map((shortcut, si) => (
-                    <div key={shortcut.id}>
-                      <ResultCard
-                        shortcut={shortcut}
-                        isFavourite={isFavourite(shortcut.id)}
-                        onToggleFavourite={() => toggleFavourite(shortcut.id)}
-                      />
-                      {gi === 0 && si === 0 && <CoffeeNudge />}
+                  {filteredResults.map((item, i) => (
+                    <div key={item.id}>
+                      {item.type === "workflow" ? (
+                        <WorkflowCard
+                          workflow={item}
+                          isFavourite={isFavourite(item.id)}
+                          onToggleFavourite={() => toggleFavourite(item.id)}
+                        />
+                      ) : (
+                        <ResultCard
+                          shortcut={item}
+                          isFavourite={isFavourite(item.id)}
+                          onToggleFavourite={() => toggleFavourite(item.id)}
+                        />
+                      )}
+                      {i === 0 && <CoffeeNudge />}
                     </div>
                   ))}
                 </div>
-                {group.workflows.length > 0 && (
-                  <div className="mt-4">
-                    <h3 className="text-text-muted text-xs font-semibold uppercase tracking-wider mb-2">
-                      Workflows
-                    </h3>
-                    <div className="space-y-3">
-                      {group.workflows.map((workflow) => (
-                        <WorkflowCard
-                          key={workflow.id}
-                          workflow={workflow}
-                          isFavourite={isFavourite(workflow.id)}
-                          onToggleFavourite={() => toggleFavourite(workflow.id)}
+              ) : (
+                <div className="text-center py-12 text-text-muted">
+                  <p className="text-lg">No results found for &ldquo;{query}&rdquo;</p>
+                  <p className="text-sm mt-2">
+                    Try different keywords or browse categories above
+                  </p>
+                </div>
+              )
+            ) : grouped.length > 0 ? (
+              grouped.map((group, gi) => (
+                <section key={group.id} aria-labelledby={`heading-${group.id}`}>
+                  <h2
+                    id={`heading-${group.id}`}
+                    className="text-text-secondary text-sm font-semibold uppercase tracking-wider mb-3"
+                  >
+                    {group.label}
+                  </h2>
+                  <div className="space-y-3">
+                    {group.shortcuts.map((shortcut, si) => (
+                      <div key={shortcut.id}>
+                        <ResultCard
+                          shortcut={shortcut}
+                          isFavourite={isFavourite(shortcut.id)}
+                          onToggleFavourite={() => toggleFavourite(shortcut.id)}
                         />
-                      ))}
-                    </div>
+                        {gi === 0 && si === 0 && <CoffeeNudge />}
+                      </div>
+                    ))}
                   </div>
-                )}
-              </section>
-            ))
-          ) : (
-            <div className="text-center py-12 text-text-muted">
-              <p className="text-lg">No favourites yet</p>
-              <p className="text-sm mt-2">
-                Click the heart icon on any shortcut to save it here
-              </p>
-            </div>
-          )}
+                  {group.workflows.length > 0 && (
+                    <div className="mt-4">
+                      <h3 className="text-text-muted text-xs font-semibold uppercase tracking-wider mb-2">
+                        Workflows
+                      </h3>
+                      <div className="space-y-3">
+                        {group.workflows.map((workflow) => (
+                          <WorkflowCard
+                            key={workflow.id}
+                            workflow={workflow}
+                            isFavourite={isFavourite(workflow.id)}
+                            onToggleFavourite={() => toggleFavourite(workflow.id)}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </section>
+              ))
+            ) : (
+              <div className="text-center py-12 text-text-muted">
+                <p className="text-lg">No favourites yet</p>
+                <p className="text-sm mt-2">
+                  Click the heart icon on any shortcut to save it here
+                </p>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-    </Layout>
+      </Layout>
     </FeedbackStatsProvider>
   );
+}
+
+function App() {
+  const [selectedOS, setSelectedOS] = useState(
+    () => localStorage.getItem('selectedOS') || null
+  );
+
+  function handleSelectOS(os) {
+    localStorage.setItem('selectedOS', os);
+    setSelectedOS(os);
+  }
+
+  function handleChangeOS() {
+    localStorage.removeItem('selectedOS');
+    setSelectedOS(null);
+  }
+
+  if (!selectedOS) {
+    return <PlatformPicker onSelect={handleSelectOS} />;
+  }
+
+  return <AppContent selectedOS={selectedOS} onChangeOS={handleChangeOS} />;
 }
 
 export default App;
