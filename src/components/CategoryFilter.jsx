@@ -1,7 +1,6 @@
 import { useRef, useCallback } from "react";
-import { categories } from "../data/shortcuts";
 
-export default function CategoryFilter({ selectedCategory, setSelectedCategory, favouriteCount = 0 }) {
+export default function CategoryFilter({ selectedCategory, setSelectedCategory, favouriteCount = 0, categories }) {
   const containerRef = useRef(null);
 
   const handleKeyDown = useCallback(

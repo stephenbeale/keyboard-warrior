@@ -14,7 +14,7 @@
 ## Phase 2 - Content Expansion
 
 - [x] **OS home page** — landing page with large buttons for Windows, Mac, and Linux; each leads to the OS-filtered shortcuts/search page. Persist choice in localStorage so returning users skip the picker.
-- [ ] Mac shortcuts data (`shortcuts-mac.js`) — Cmd-based equivalents, Finder workflows, Spotlight, Mission Control
+- [x] Mac shortcuts data (`shortcuts-mac.js`) — Cmd-based equivalents, Finder workflows, Spotlight, Mission Control
 - [ ] Linux shortcuts data (`shortcuts-linux.js`) — Super key, Nautilus/Files, terminal workflows, common DE shortcuts (GNOME/KDE)
 - [ ] More workflows (PowerToys, WSL, Terminal tricks)
 - [ ] Skill level tags (beginner / intermediate / advanced)

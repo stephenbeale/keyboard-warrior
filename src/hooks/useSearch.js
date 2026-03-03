@@ -1,11 +1,5 @@
 import { useMemo, useState, useCallback } from "react";
 import Fuse from "fuse.js";
-import { shortcuts } from "../data/shortcuts";
-import { workflows } from "../data/workflows";
-
-const shortcutItems = shortcuts.map((s) => ({ ...s, type: "shortcut" }));
-const workflowItems = workflows.map((w) => ({ ...w, type: "workflow" }));
-const allItems = [...shortcutItems, ...workflowItems];
 
 const fuseOptions = {
   keys: [
@@ -64,11 +58,17 @@ function tokenSearch(fuse, query) {
   return combined;
 }
 
-export function useSearch() {
+export function useSearch(shortcuts, workflows) {
   const [query, setQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(null);
 
-  const fuse = useMemo(() => new Fuse(allItems, fuseOptions), []);
+  const allItems = useMemo(() => {
+    const shortcutItems = shortcuts.map((s) => ({ ...s, type: "shortcut" }));
+    const workflowItems = workflows.map((w) => ({ ...w, type: "workflow" }));
+    return [...shortcutItems, ...workflowItems];
+  }, [shortcuts, workflows]);
+
+  const fuse = useMemo(() => new Fuse(allItems, fuseOptions), [allItems]);
 
   const results = useMemo(() => {
     let items;
@@ -102,7 +102,7 @@ export function useSearch() {
     }
 
     return items;
-  }, [query, selectedCategory, fuse]);
+  }, [query, selectedCategory, fuse, allItems]);
 
   const clearSearch = useCallback(() => {
     setQuery("");
