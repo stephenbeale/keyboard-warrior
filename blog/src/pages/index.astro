@@ -1,0 +1,71 @@
+---
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog | Keyboard Warrior</title>
+  <meta name="description" content="Tips, guides and shortcuts for keyboard productivity." />
+  <meta property="og:title" content="Keyboard Warrior Blog" />
+  <meta property="og:description" content="Tips, guides and shortcuts for keyboard productivity." />
+  <link rel="canonical" href="https://keyboardwarrior.cc/blog/" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.7; color: #e2e8f0; background: #0f172a; }
+    .container { max-width: 720px; margin: 0 auto; padding: 2rem 1rem; }
+    .back-link { color: #94a3b8; text-decoration: none; font-size: 0.875rem; }
+    .back-link:hover { color: #e2e8f0; }
+    h1 { font-size: 2rem; margin: 1rem 0 0.5rem; color: #f8fafc; }
+    .subtitle { color: #64748b; margin-bottom: 2rem; }
+    .post-list { list-style: none; }
+    .post-item { padding: 1.25rem 0; border-bottom: 1px solid #1e293b; }
+    .post-item:last-child { border-bottom: none; }
+    .post-link { text-decoration: none; }
+    .post-title { font-size: 1.2rem; color: #f1f5f9; font-weight: 600; }
+    .post-link:hover .post-title { color: #f59e0b; }
+    .post-desc { color: #94a3b8; font-size: 0.9rem; margin-top: 0.3rem; }
+    .post-date { color: #475569; font-size: 0.8rem; margin-top: 0.3rem; }
+    .empty { color: #64748b; font-style: italic; }
+    .footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid #1e293b; text-align: center; font-size: 0.75rem; color: #475569; }
+    .footer a { color: #f59e0b; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="https://keyboardwarrior.cc" class="back-link">&larr; Back to Keyboard Warrior</a>
+    <h1>Blog</h1>
+    <p class="subtitle">Tips, guides and shortcuts for keyboard productivity.</p>
+    {posts.length === 0 ? (
+      <p class="empty">No posts yet. Check back soon!</p>
+    ) : (
+      <ul class="post-list">
+        {posts.map((post) => (
+          <li class="post-item">
+            <a href={`/blog/${post.id}/`} class="post-link">
+              <div class="post-title">{post.data.title}</div>
+              <div class="post-desc">{post.data.description}</div>
+              <div class="post-date">
+                {post.data.pubDate.toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })}
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    )}
+    <div class="footer">
+      <p>
+        <a href="https://keyboardwarrior.cc">Keyboard Warrior</a> — learn shortcuts faster
+      </p>
+      <p style="margin-top: 0.5rem;">
+        If this was useful, <a href="https://buymeacoffee.com/stephenbeale">buy me a coffee</a>
+      </p>
+    </div>
+  </div>
+</body>
+</html>
