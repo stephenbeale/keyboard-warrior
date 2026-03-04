@@ -2,13 +2,16 @@ import ThemeToggle from './ThemeToggle';
 import CoffeeNudge from './CoffeeNudge';
 import HostingNudge from './HostingNudge';
 
+const CLAUDE_REFERRAL_URL = 'CLAUDE_REFERRAL_URL';
+const QUIDCO_REFERRAL_URL = 'QUIDCO_REFERRAL_URL';
+
 const OS_LABELS = {
   windows: '⊞ Windows',
   mac: '⌘ Mac',
   linux: '🐧 Linux',
 };
 
-export default function Layout({ children, onChangeOS, selectedOS }) {
+export default function Layout({ children, onChangeOS, selectedOS, onNavigate }) {
   return (
     <>
       <a href="#main-content" className="skip-link">
@@ -50,6 +53,13 @@ export default function Layout({ children, onChangeOS, selectedOS }) {
           Press <kbd>/</kbd> to search &middot; <kbd>Esc</kbd> to clear &middot; <kbd>Tab</kbd> to navigate
           <CoffeeNudge />
           <HostingNudge />
+          <div className="mt-2 text-xs text-text-muted">
+            Built with the help of{' '}
+            <a href={CLAUDE_REFERRAL_URL} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">Claude</a>
+            {' '}&middot;{' '}
+            Save on tech gear with{' '}
+            <a href={QUIDCO_REFERRAL_URL} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">Quidco cashback</a>
+          </div>
           <div className="mt-3 pt-3 border-t border-surface-lighter text-xs text-text-muted">
             Also by me:{' '}
             <a href="https://waffley.app" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">Waffley</a>
@@ -57,6 +67,17 @@ export default function Layout({ children, onChangeOS, selectedOS }) {
             <a href="https://stephenbeale.github.io/snout/" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">Snout</a>
             {' '}&middot;{' '}
             <a href="https://stephenbeale.github.io/job-compare/" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">JobWeigh</a>
+            {onNavigate && (
+              <>
+                {' '}&middot;{' '}
+                <button
+                  onClick={() => onNavigate('recommended')}
+                  className="text-accent hover:underline cursor-pointer"
+                >
+                  Tools I Use
+                </button>
+              </>
+            )}
           </div>
         </footer>
       </div>

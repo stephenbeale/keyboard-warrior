@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Layout from "./components/Layout";
 import PlatformPicker from "./components/PlatformPicker";
+import RecommendedPage from "./components/RecommendedPage";
 import SearchBar from "./components/SearchBar";
 import CategoryFilter from "./components/CategoryFilter";
 import ResultCard from "./components/ResultCard";
@@ -14,7 +15,7 @@ import { macShortcuts, macCategories } from "./data/shortcuts-mac";
 import { workflowsMac } from "./data/workflows-mac";
 import { FeedbackStatsProvider } from "./hooks/useFeedbackStats";
 
-function AppContent({ selectedOS, onChangeOS }) {
+function AppContent({ selectedOS, onChangeOS, onNavigate }) {
   const platformShortcuts  = selectedOS === "mac" ? macShortcuts  : shortcuts;
   const platformWorkflows  = selectedOS === "mac" ? workflowsMac  : workflows;
   const platformCategories = selectedOS === "mac" ? macCategories : categories;
@@ -47,7 +48,7 @@ function AppContent({ selectedOS, onChangeOS }) {
 
   return (
     <FeedbackStatsProvider>
-      <Layout onChangeOS={onChangeOS} selectedOS={selectedOS}>
+      <Layout onChangeOS={onChangeOS} selectedOS={selectedOS} onNavigate={onNavigate}>
         <div className="space-y-6">
           <SearchBar
             query={query}
@@ -157,6 +158,7 @@ function App() {
   const [selectedOS, setSelectedOS] = useState(
     () => localStorage.getItem('selectedOS') || null
   );
+  const [page, setPage] = useState('home');
 
   function handleSelectOS(os) {
     localStorage.setItem('selectedOS', os);
@@ -172,7 +174,17 @@ function App() {
     return <PlatformPicker onSelect={handleSelectOS} />;
   }
 
-  return <AppContent selectedOS={selectedOS} onChangeOS={handleChangeOS} />;
+  if (page === 'recommended') {
+    return <RecommendedPage onBack={() => setPage('home')} />;
+  }
+
+  return (
+    <AppContent
+      selectedOS={selectedOS}
+      onChangeOS={handleChangeOS}
+      onNavigate={setPage}
+    />
+  );
 }
 
 export default App;
