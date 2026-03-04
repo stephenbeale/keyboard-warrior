@@ -1,0 +1,67 @@
+---
+const { title, description, pubDate, tags } = Astro.props;
+const formattedDate = pubDate.toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title} | Keyboard Warrior Blog</title>
+  <meta name="description" content={description} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="article" />
+  <link rel="canonical" href={Astro.url} />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.7; color: #e2e8f0; background: #0f172a; }
+    .container { max-width: 720px; margin: 0 auto; padding: 2rem 1rem; }
+    .back-link { color: #94a3b8; text-decoration: none; font-size: 0.875rem; }
+    .back-link:hover { color: #e2e8f0; }
+    h1 { font-size: 2rem; margin: 1.5rem 0 0.5rem; color: #f8fafc; }
+    .meta { color: #64748b; font-size: 0.875rem; margin-bottom: 2rem; }
+    .tags { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
+    .tag { background: #1e293b; color: #94a3b8; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.75rem; }
+    article { line-height: 1.8; }
+    article h2 { font-size: 1.4rem; margin: 2rem 0 0.75rem; color: #f1f5f9; }
+    article h3 { font-size: 1.15rem; margin: 1.5rem 0 0.5rem; color: #e2e8f0; }
+    article p { margin-bottom: 1rem; }
+    article a { color: #f59e0b; }
+    article code { background: #1e293b; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.9em; }
+    article pre { background: #1e293b; padding: 1rem; border-radius: 8px; overflow-x: auto; margin-bottom: 1rem; }
+    article pre code { background: none; padding: 0; }
+    article ul, article ol { margin-bottom: 1rem; padding-left: 1.5rem; }
+    article li { margin-bottom: 0.4rem; }
+    article kbd { background: #1e293b; border: 1px solid #334155; padding: 0.1rem 0.4rem; border-radius: 4px; font-size: 0.85em; font-family: inherit; }
+    .footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid #1e293b; text-align: center; font-size: 0.75rem; color: #475569; }
+    .footer a { color: #f59e0b; text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/blog/" class="back-link">&larr; All posts</a>
+    <h1>{title}</h1>
+    <div class="meta">
+      <time>{formattedDate}</time>
+      {tags && tags.length > 0 && (
+        <div class="tags">
+          {tags.map((tag: string) => <span class="tag">{tag}</span>)}
+        </div>
+      )}
+    </div>
+    <article>
+      <slot />
+    </article>
+    <div class="footer">
+      <p>
+        <a href="https://keyboardwarrior.cc">Keyboard Warrior</a> — learn shortcuts faster
+      </p>
+      <p style="margin-top: 0.5rem;">
+        If this was useful, <a href="https://buymeacoffee.com/stephenbeale">buy me a coffee</a>
+      </p>
+    </div>
+  </div>
+</body>
+</html>

@@ -9,6 +9,7 @@ lerna-debug.log*
 
 node_modules
 dist
+blog/.astro
 dist-ssr
 *.local
 
